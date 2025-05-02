@@ -26,7 +26,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// ✅ NEW: Notify popup when tab reloads
+// Notify popup when tab reloads
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.active) {
     chrome.runtime.sendMessage({ type: 'pageReloaded' });
