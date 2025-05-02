@@ -1,3 +1,5 @@
+Chrome extension to view VA API response data for disability claims status.
+
 To use:
 1.  download all of the files here to a local folder.
 2. Open up Chrome and navigate to chrome://extensions/. 
