@@ -55,7 +55,7 @@ function renderJson(obj, indent = 0) {
   for (const [key, value] of Object.entries(obj)) {
     const normalizedKey = key.toLowerCase().replace(/[^a-z]/g, '');
     const label = capitalizeWords(key);
-    const isHighlighted = ['jurisdiction'].includes(normalizedKey);
+    const isHighlighted = ['tempJurisdiction'].includes(normalizedKey);
 
     if (typeof value === 'object' && value !== null) {
       html += `
