@@ -1,5 +1,3 @@
-Again, thank you to gem_finder_alpha on Reddit for the inspiration on this project. This is an open sourced chrome extension for viewing your VA claim, but with the added responses from the API typically not shown on the claim status page on VA.gov.
-
 To use:
 1.  download all of the files here to a local folder.
 2. Open up Chrome and navigate to chrome://extensions/. 
