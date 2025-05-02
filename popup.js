@@ -1,7 +1,23 @@
 //wait for all HTML content to be parsed before reading, then listen for page refresh
 document.addEventListener('DOMContentLoaded', () => {
   const refreshBtn = document.getElementById('refreshBtn');
+  const ratedOutput = document.getElementById('ratedOutput');
+  const refreshRatedBtn = document.getElementById('refreshRatedBtn');
 
+  refreshRatedBtn.addEventListener('click', () => {
+    ratedOutput.textContent = 'Loading pizza ratings...';
+
+    fetch('https://api.va.gov/v0/rated_disabilities')
+      .then(res => res.json())
+      .then(json => {
+        const html = renderJson(json);  // reuse the same function
+        ratedOutput.innerHTML = html;
+      })
+      .catch(err => {
+        ratedOutput.textContent = 'Failed to load ratings.';
+        console.error(err);
+      });
+  });
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
