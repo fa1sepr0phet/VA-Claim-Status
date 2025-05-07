@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const refreshRatedBtn = document.getElementById('refreshRatedBtn');
 
   refreshRatedBtn.addEventListener('click', () => {
-    ratedOutput.textContent = 'Loading pizza ratings...';
+    ratedOutput.textContent = 'Loading disability ratings...';
 
     fetch('https://api.va.gov/v0/rated_disabilities')
       .then(res => res.json())
@@ -40,13 +40,13 @@ chrome.runtime.onMessage.addListener((message) => {
   }
 });
 
+//This function returns the latest claim status from the API JSON Response
 function updateStatus() {
   const output = document.getElementById('output');
   if (!output) return;
 
   output.textContent = 'Refreshing...';
-  
-//read the claim status from the API response
+
   chrome.runtime.sendMessage({ type: 'getLatestClaimStatus' }, (response) => {
     if (!response || !response.data) {
       output.textContent = 'No status available.';
@@ -55,23 +55,66 @@ function updateStatus() {
 
     try {
       const json = JSON.parse(response.data);
+
+      // Keys we want to promote to the top, change this to your liking
+      const priorityKeys = ['tempJurisdiction', 'latestPhaseType', 'Phase Change Date', 'decisionLetterSent', 'status'];
+
+      let specialHtml = '';
+      for (const key of priorityKeys) {
+        const value = findKeyRecursive(json, key);
+        if (value !== undefined) {
+          specialHtml += `
+            <div class="card highlight-card">
+              <div class="label">${capitalizeWords(key)}:</div>
+              <div class="value highlight">${value}</div>
+            </div>
+          `;
+        }
+      }
+
       const highlightedHtml = renderJson(json);
-      output.innerHTML = highlightedHtml;
-      resizePopupToFitContent(); // <- Auto-resize here
+      output.innerHTML = specialHtml + highlightedHtml;
+
+      resizePopupToFitContent(); // auto-resize after update
+
     } catch (e) {
       output.textContent = 'Failed to parse JSON.';
     }
   });
 }
 
-//make the JSON readable to normies and highlight the jurisdiction, since that lets us know where our claim is 
+//this function helps the UpdateStatus function by searching for our keys we want to prioritize, like tempJurisdiction and Phase Change Date
+function findKeyRecursive(obj, targetKey) {
+  if (typeof obj !== 'object' || obj === null) return undefined;
+
+  for (const [key, value] of Object.entries(obj)) { //loop over each key-value pair in the current object level
+    if (key.toLowerCase() === targetKey.toLowerCase()) {
+      return value;
+    }
+
+    if (typeof value === 'object') {
+      const result = findKeyRecursive(value, targetKey); //If the value is itself another object or array, we recurse into it by calling the function again
+      if (result !== undefined) {
+        return result;
+      }
+    }
+  }
+
+  return undefined;
+}
+
+
+//make the JSON readable to normies and highlight the Temp Jurisdiction, since that lets us know where our claim is
 function renderJson(obj, indent = 0) {
   let html = '';
+  const HIGHLIGHT_KEYS = ['tempjurisdiction'];
 
   for (const [key, value] of Object.entries(obj)) {
     const normalizedKey = key.toLowerCase().replace(/[^a-z]/g, '');
     const label = capitalizeWords(key);
-    const isHighlighted = ['tempJurisdiction'].includes(normalizedKey);
+    const isHighlighted = HIGHLIGHT_KEYS.includes(normalizedKey);
+
+    console.log("Key:", key, "Normalized:", normalizedKey, "Highlighted?", isHighlighted);
 
     if (typeof value === 'object' && value !== null) {
       html += `
@@ -79,6 +122,7 @@ function renderJson(obj, indent = 0) {
           <div class="label">${label}:</div>
           ${renderJson(value, indent + 1)}
         </div>`;
+    console.log("Key:", key, "Normalized:", normalizedKey, "Highlighted?", isHighlighted);
     } else {
       const valHtml = isHighlighted
         ? `<span class="highlight">${value}</span>`
@@ -94,6 +138,7 @@ function renderJson(obj, indent = 0) {
 
   return html;
 }
+
 
 function capitalizeWords(str) {
   return str.replace(/([a-z])([A-Z])/g, '$1 $2')  // camelCase -> camel Case
