@@ -18,8 +18,17 @@ body {
   width: 100%;
 }
 
-#refreshBtn:hover {
-  background-color: #0056b3;
+#refreshRatedBtn {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
 }
 
 .output-container {
