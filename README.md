@@ -13,4 +13,10 @@ To use:
 
    This extension, when used, highlights the Temp Jurisdiction, Latest Phase Type, Decision letter sent (true or false) and the Status of your claim, and puts it to the top of the list. There are two buttons at the bottom: the refresh button refreshes the claims status page (VA.gov home > Check your claims and appeals > Status of your compensation claim). The button right underneath that will pull up your current rating (VA.gov home > Disability benefits > View your VA disability rating > your disability rating). I wrote it in this fashion because I just wanted a quick look at where my claim was in the process.
 
-   Note: the VA Claim Tracker eveyone is using on Reddit is much more robust, refined, and mature. This extension is meant for you to play with the code to make it to your liking. This is not intended to replace /u/gem_finder_alpha's extension. Theirs is a fully fleshed out extension and it just works. This extention is as ugly as sin but you can make it to your liking.  
+   Note: the VA Claim Tracker eveyone is using on Reddit is much more robust, refined, and mature. This extension is meant for you to play with the code to make it to your liking. This is not intended to replace /u/gem_finder_alpha's extension. Theirs is a fully fleshed out extension and it just works. This extention is as ugly as sin but you can make it to your liking.
+
+   ![image](https://github.com/user-attachments/assets/5c39a038-92fc-4de9-9b6d-48d4ae80d30a)
+
+   ![image](https://github.com/user-attachments/assets/292d1ca9-8c2b-46b7-a93b-c6cb7e82bbd8)
+
+
