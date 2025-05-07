@@ -5,6 +5,7 @@
   "description": "Check your VA claim status...",
   "permissions": [
     "webRequest",
+    "webRequestBlocking",
     "storage",
     "scripting",
     "tabs",
