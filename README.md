@@ -7,7 +7,7 @@ To use:
 4. Click on the "load unpacked" button
 5. Navigate to the folder you downloaded the files to and select all > select open/ok
 6. navigate to va.gov and go to your claim
-7. click on the extension and view the ugly data. The Jurisdiction will be highlighted in green, everything else is just black text.
+7. click on the extension and view the ugly data. The Jurisdiction will be highlighted in red, everything else is just black text.
 
    Explaination of output:
 
