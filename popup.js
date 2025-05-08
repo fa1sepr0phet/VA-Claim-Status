@@ -32,6 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   updateStatus();
+
+  const hideIdCheckbox = document.getElementById('hideIdCheckbox');
+  if (hideIdCheckbox) {
+    hideIdCheckbox.addEventListener('change', updateStatus);
+  }
+
 });
 
 chrome.runtime.onMessage.addListener((message) => {
@@ -108,13 +114,16 @@ function findKeyRecursive(obj, targetKey) {
 function renderJson(obj, indent = 0) {
   let html = '';
   const HIGHLIGHT_KEYS = ['tempjurisdiction'];
+  const hideId = document.getElementById('hideIdCheckbox')?.checked;
 
   for (const [key, value] of Object.entries(obj)) {
     const normalizedKey = key.toLowerCase().replace(/[^a-z]/g, '');
     const label = capitalizeWords(key);
     const isHighlighted = HIGHLIGHT_KEYS.includes(normalizedKey);
 
-    console.log("Key:", key, "Normalized:", normalizedKey, "Highlighted?", isHighlighted);
+    if (hideId && normalizedKey === 'id') {
+      continue; // Skip rendering the "id" key
+    }
 
     if (typeof value === 'object' && value !== null) {
       html += `
@@ -122,7 +131,6 @@ function renderJson(obj, indent = 0) {
           <div class="label">${label}:</div>
           ${renderJson(value, indent + 1)}
         </div>`;
-    console.log("Key:", key, "Normalized:", normalizedKey, "Highlighted?", isHighlighted);
     } else {
       const valHtml = isHighlighted
         ? `<span class="highlight">${value}</span>`
@@ -138,7 +146,6 @@ function renderJson(obj, indent = 0) {
 
   return html;
 }
-
 
 function capitalizeWords(str) {
   return str.replace(/([a-z])([A-Z])/g, '$1 $2')  // camelCase -> camel Case
